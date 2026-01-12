@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AKB Capital Group | Corporate Structuring</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              akb: {
+                50: '#F5F7F6',
+                100: '#E6EBE9',
+                200: '#C0CEC9',
+                // Replacing Neon Mint with Champagne/Gold accents
+                300: '#E2D1A6', // Champagne
+                400: '#D4AF37', // Classic Gold
+                500: '#B5952F', // Dark Gold
+                600: '#144136', // Lighter Green for borders
+                700: '#112A24', // Primary Corporate Green
+                800: '#0C201B', // Deep Background
+                900: '#06110E', // Almost Black
+              }
+            },
+            fontFamily: {
+              sans: ['Montserrat', 'sans-serif'],
+              body: ['Inter', 'sans-serif'],
+              serif: ['Playfair Display', 'serif'],
+            },
+            backgroundImage: {
+              'cubes-pattern': "url('https://www.transparenttextures.com/patterns/cubes.png')",
+              'green-gradient': "linear-gradient(180deg, #112A24 0%, #0C201B 100%)",
+            },
+            boxShadow: {
+              'soft': '0 4px 30px rgba(0, 0, 0, 0.05)',
+              'gold': '0 4px 20px rgba(212, 175, 55, 0.15)', // Subtle gold shadow instead of neon
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      body {
+        background-color: #F5F7F6;
+        color: #112A24;
+      }
+      .geometric-box {
+        position: relative;
+        overflow: hidden;
+      }
+      .geometric-box::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background-image: radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px);
+        background-size: 30px 30px;
+        opacity: 0.3;
+        transform: rotate(45deg);
+        pointer-events: none;
+      }
+      .text-gold {
+          color: #D4AF37;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
