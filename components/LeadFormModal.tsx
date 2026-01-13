@@ -27,35 +27,40 @@ export const LeadFormModal: React.FC<LeadFormModalProps> = ({ isOpen, onClose, o
     setLoading(true);
 
     try {
-      // Prepare data for Go High Level
-      const leadData = {
-        ...formData,
+      // Import Supabase helper
+      const { saveLead } = await import('../lib/supabase');
+
+      // Save to Supabase
+      const result = await saveLead({
+        nombre: formData.nombre,
+        email: formData.email,
+        telefono: formData.telefono,
+        facturacion: formData.facturacion,
+        tipoNegocio: formData.tipoNegocio,
+        nivelCompromiso: formData.nivelCompromiso,
         source: 'lead_form_modal',
-        timestamp: new Date().toISOString(),
         url: window.location.href,
-      };
+      });
 
-      // Import config dynamically
-      const { config } = await import('../config');
+      // Also save to localStorage as backup
+      localStorage.setItem('akb_lead_data', JSON.stringify(formData));
 
-      // Send to Go High Level webhook
-      if (config.ghlWebhookUrl && config.ghlWebhookUrl !== 'https://services.leadconnectorhq.com/hooks/YOUR_WEBHOOK_ID') {
-        await fetch(config.ghlWebhookUrl, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(leadData),
-        });
+      setLoading(false);
+
+      if (result.success) {
+        alert("¡Gracias por rellenar el formulario! Pronto nos pondremos en contacto contigo.\n\nMientras tanto, te pedimos encarecidamente que mires el video para saber si esto es para ti.");
+      } else {
+        // Even if Supabase fails, we saved to localStorage
+        alert("¡Gracias por rellenar el formulario! Tus datos han sido guardados.\n\nMientras tanto, te pedimos encarecidamente que mires el video para saber si esto es para ti.");
       }
 
-      setLoading(false);
-      alert("¡Gracias por rellenar el formulario! Pronto nos pondremos en contacto contigo.\n\nMientras tanto, te pedimos encarecidamente que mires el video para saber si esto es para ti.");
       onSubmit();
     } catch (error) {
-      console.error('Error sending to GHL:', error);
+      console.error('Error submitting form:', error);
+      // Save to localStorage as fallback
+      localStorage.setItem('akb_lead_data', JSON.stringify(formData));
       setLoading(false);
-      alert("¡Gracias por rellenar el formulario! Pronto nos pondremos en contacto contigo.\n\nMientras tanto, te pedimos encarecidamente que mires el video para saber si esto es para ti.");
+      alert("¡Gracias por rellenar el formulario! Tus datos han sido guardados.\n\nMientras tanto, te pedimos encarecidamente que mires el video para saber si esto es para ti.");
       onSubmit();
     }
   };

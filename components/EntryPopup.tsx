@@ -22,38 +22,35 @@ export const EntryPopup: React.FC<EntryPopupProps> = ({ isOpen, onSubmit }) => {
         setLoading(true);
 
         try {
-            // Prepare data for Go High Level
-            const leadData = {
-                ...formData,
+            // Import Supabase helper
+            const { saveLead } = await import('../lib/supabase');
+
+            // Save to Supabase
+            const result = await saveLead({
+                nombre: formData.nombre,
+                email: formData.email,
+                telefono: formData.telefono,
                 source: 'entry_popup',
-                timestamp: new Date().toISOString(),
                 url: window.location.href,
-            };
+            });
 
-            // Import config dynamically
-            const { config } = await import('../config');
-
-            // Send to Go High Level webhook
-            if (config.ghlWebhookUrl && config.ghlWebhookUrl !== 'https://services.leadconnectorhq.com/hooks/YOUR_WEBHOOK_ID') {
-                await fetch(config.ghlWebhookUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(leadData),
-                });
-            }
-
-            // Store form data in localStorage as backup
+            // Also save to localStorage as backup
             localStorage.setItem('akb_entry_data', JSON.stringify(formData));
             localStorage.setItem('akb_entry_submitted', 'true');
 
             setLoading(false);
-            alert("¡Bienvenido! Gracias por registrarte. A continuación podrás ver nuestro contenido exclusivo.");
+
+            if (result.success) {
+                alert("¡Bienvenido! Gracias por registrarte. A continuación podrás ver nuestro contenido exclusivo.");
+            } else {
+                // Even if Supabase fails, we saved to localStorage
+                alert("¡Bienvenido! Gracias por registrarte. A continuación podrás ver nuestro contenido exclusivo.");
+            }
+
             onSubmit();
         } catch (error) {
-            console.error('Error sending to GHL:', error);
-            // Still save locally and proceed even if webhook fails
+            console.error('Error submitting form:', error);
+            // Save to localStorage as fallback
             localStorage.setItem('akb_entry_data', JSON.stringify(formData));
             localStorage.setItem('akb_entry_submitted', 'true');
             setLoading(false);
