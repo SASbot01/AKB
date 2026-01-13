@@ -11,25 +11,66 @@ interface LeadFormModalProps {
 
 export const LeadFormModal: React.FC<LeadFormModalProps> = ({ isOpen, onClose, onSubmit, title }) => {
   const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    nombre: '',
+    email: '',
+    telefono: '',
+    facturacion: '',
+    tipoNegocio: '',
+    nivelCompromiso: '',
+  });
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    // Simulate API call
-    setTimeout(() => {
+
+    try {
+      // Prepare data for Go High Level
+      const leadData = {
+        ...formData,
+        source: 'lead_form_modal',
+        timestamp: new Date().toISOString(),
+        url: window.location.href,
+      };
+
+      // Import config dynamically
+      const { config } = await import('../config');
+
+      // Send to Go High Level webhook
+      if (config.ghlWebhookUrl && config.ghlWebhookUrl !== 'https://services.leadconnectorhq.com/hooks/YOUR_WEBHOOK_ID') {
+        await fetch(config.ghlWebhookUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(leadData),
+        });
+      }
+
       setLoading(false);
-      // Popup requirement as per instructions
-      alert("Gracias. Su perfil ha sido registrado y pre-calificado. Nuestro equipo analizará sus datos y le contactará en breve. \n\nA continuación, acceda al video explicativo.");
+      alert("¡Gracias por rellenar el formulario! Pronto nos pondremos en contacto contigo.\n\nMientras tanto, te pedimos encarecidamente que mires el video para saber si esto es para ti.");
       onSubmit();
-    }, 1500);
+    } catch (error) {
+      console.error('Error sending to GHL:', error);
+      setLoading(false);
+      alert("¡Gracias por rellenar el formulario! Pronto nos pondremos en contacto contigo.\n\nMientras tanto, te pedimos encarecidamente que mires el video para saber si esto es para ti.");
+      onSubmit();
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
   };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-slate-900/80 backdrop-blur-sm" onClick={onClose}></div>
-      
+
       <div className="relative w-full max-w-lg bg-white border border-slate-200 rounded shadow-2xl overflow-hidden animate-fade-in-up max-h-[90vh] overflow-y-auto">
         {/* Header */}
         <div className="bg-slate-50 p-4 border-b border-slate-200 flex justify-between items-center sticky top-0 z-10">
@@ -45,28 +86,34 @@ export const LeadFormModal: React.FC<LeadFormModalProps> = ({ isOpen, onClose, o
         {/* Content */}
         <div className="p-8">
           <h3 className="text-xl font-display font-bold text-slate-900 mb-2 text-center">
-            {title || "Desbloquear Diagnóstico Premium"}
+            {title || "Solicitud de Acceso & Pre-Cualificación"}
           </h3>
           <p className="text-slate-500 text-sm text-center mb-6 leading-relaxed">
-            En la llamada de diagnóstico le daremos una <strong>cifra exacta</strong> del capital que podrá optimizar (ahorro fiscal y protección) basada en su situación actual. Por favor, sea preciso.
+            Completa este formulario para acceder a la página y al video completo. Nuestro equipo analizará tu perfil.
           </p>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Nombre Completo</label>
-                <input 
+                <input
                   required
-                  type="text" 
+                  type="text"
+                  name="nombre"
+                  value={formData.nombre}
+                  onChange={handleChange}
                   className="w-full bg-white border border-slate-300 text-slate-900 px-3 py-2.5 rounded focus:border-corporate-500 focus:outline-none focus:ring-1 focus:ring-corporate-500/50 transition-all shadow-sm text-sm"
                   placeholder="Ej. Carlos Martínez"
                 />
               </div>
               <div>
                 <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Email Corporativo</label>
-                <input 
+                <input
                   required
-                  type="email" 
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
                   className="w-full bg-white border border-slate-300 text-slate-900 px-3 py-2.5 rounded focus:border-corporate-500 focus:outline-none focus:ring-1 focus:ring-corporate-500/50 transition-all shadow-sm text-sm"
                   placeholder="carlos@empresa.com"
                 />
@@ -75,9 +122,12 @@ export const LeadFormModal: React.FC<LeadFormModalProps> = ({ isOpen, onClose, o
 
             <div>
               <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">WhatsApp / Teléfono</label>
-              <input 
+              <input
                 required
-                type="tel" 
+                type="tel"
+                name="telefono"
+                value={formData.telefono}
+                onChange={handleChange}
                 className="w-full bg-white border border-slate-300 text-slate-900 px-3 py-2.5 rounded focus:border-corporate-500 focus:outline-none focus:ring-1 focus:ring-corporate-500/50 transition-all shadow-sm text-sm"
                 placeholder="+34 600 000 000"
               />
@@ -87,8 +137,11 @@ export const LeadFormModal: React.FC<LeadFormModalProps> = ({ isOpen, onClose, o
             <div>
               <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Facturación Anual Actual</label>
               <div className="relative">
-                <select 
+                <select
                   required
+                  name="facturacion"
+                  value={formData.facturacion}
+                  onChange={handleChange}
                   className="w-full bg-white border border-slate-300 text-slate-900 px-3 py-2.5 rounded focus:border-corporate-500 focus:outline-none focus:ring-1 focus:ring-corporate-500/50 transition-all shadow-sm appearance-none text-sm"
                 >
                   <option value="">Seleccione rango...</option>
@@ -105,8 +158,11 @@ export const LeadFormModal: React.FC<LeadFormModalProps> = ({ isOpen, onClose, o
             <div>
               <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Tipo de Negocio</label>
               <div className="relative">
-                <select 
+                <select
                   required
+                  name="tipoNegocio"
+                  value={formData.tipoNegocio}
+                  onChange={handleChange}
                   className="w-full bg-white border border-slate-300 text-slate-900 px-3 py-2.5 rounded focus:border-corporate-500 focus:outline-none focus:ring-1 focus:ring-corporate-500/50 transition-all shadow-sm appearance-none text-sm"
                 >
                   <option value="">Seleccione tipo...</option>
@@ -124,8 +180,11 @@ export const LeadFormModal: React.FC<LeadFormModalProps> = ({ isOpen, onClose, o
             <div>
               <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Nivel de Compromiso</label>
               <div className="relative">
-                <select 
+                <select
                   required
+                  name="nivelCompromiso"
+                  value={formData.nivelCompromiso}
+                  onChange={handleChange}
                   className="w-full bg-white border border-slate-300 text-slate-900 px-3 py-2.5 rounded focus:border-corporate-500 focus:outline-none focus:ring-1 focus:ring-corporate-500/50 transition-all shadow-sm appearance-none text-sm"
                 >
                   <option value="">Seleccione nivel...</option>
@@ -150,7 +209,7 @@ export const LeadFormModal: React.FC<LeadFormModalProps> = ({ isOpen, onClose, o
                 )}
               </Button>
             </div>
-            
+
             <p className="text-[10px] text-slate-400 text-center mt-4">
               Sus datos están protegidos bajo estricto secreto profesional. AKB Capital Group &copy;.
             </p>
