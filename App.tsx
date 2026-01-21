@@ -44,7 +44,7 @@ function App() {
         <Methodology />
 
         {/* Final CTA - Go High Level */}
-        <FinalCTA />
+        <FinalCTA onOpenForm={handleOpenForm} />
       </main>
       <Footer />
     </div>
