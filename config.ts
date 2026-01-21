@@ -9,12 +9,8 @@ export const config = {
     ghlWebhookUrl: 'https://services.leadconnectorhq.com/hooks/Xnbqlch5urDqQ4LWzSY1/webhook-trigger/ab855ad0-e6ea-4d53-99d6-b293f6017c01',
 
     // VSL Video Configuration
-    // Update with your video URL when ready
-    // Supported formats:
-    // - YouTube: 'https://www.youtube.com/embed/VIDEO_ID'
-    // - Vimeo: 'https://player.vimeo.com/video/VIDEO_ID'
-    // - Self-hosted: '/path/to/video.mp4'
-    vslVideoUrl: 'https://www.youtube.com/embed/jfKfPfyJRdk?autoplay=1&controls=1&rel=0',
+    // Google Drive video embed URL
+    vslVideoUrl: 'https://drive.google.com/file/d/1h5723JkrROcj_yp2OjPCZRI18xPTL9q4/preview',
 
     // Form submission endpoint (optional - for future integration)
     formSubmitUrl: '',

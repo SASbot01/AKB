@@ -3,23 +3,14 @@ import { Play, Lock, ArrowRight, Trees } from 'lucide-react';
 import { Button } from './Button';
 import { config } from '../config';
 
-type HeroView = 'locked' | 'video' | 'thankyou';
+type HeroView = 'video' | 'thankyou';
 
-export const Hero: React.FC = () => {
-  const [viewState, setViewState] = useState<HeroView>('locked');
+interface HeroProps {
+  onOpenForm: () => void;
+}
 
-  useEffect(() => {
-    // Check if user has submitted the qualification form
-    const hasSubmitted = localStorage.getItem('akb_qualification_submitted');
-    if (hasSubmitted === 'true') {
-      setViewState('video');
-    }
-  }, []);
-
-  const handleUnlockVideo = () => {
-    // Just unlock the video directly - they already filled the form
-    setViewState('video');
-  };
+export const Hero: React.FC<HeroProps> = ({ onOpenForm }) => {
+  const [viewState, setViewState] = useState<HeroView>('video');
 
   const handleVideoFinished = () => {
     setViewState('thankyou');
@@ -67,32 +58,6 @@ export const Hero: React.FC = () => {
           {/* VSL Container */}
           <div className="relative w-full max-w-3xl mx-auto bg-akb-800 p-3 rounded-sm border border-akb-600 shadow-2xl shadow-black/40">
             <div className="relative w-full aspect-video bg-akb-900 overflow-hidden">
-              {viewState === 'locked' && (
-                <div
-                  className="absolute inset-0 cursor-pointer group"
-                  onClick={handleUnlockVideo}
-                >
-                  <div className="absolute inset-0 bg-akb-900/60 z-10 mix-blend-multiply"></div>
-                  {/* Background Image: Corporate/Abstract similar to Page 3 */}
-                  <img
-                    src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop"
-                    alt="Corporate Office"
-                    className="w-full h-full object-cover opacity-50 grayscale"
-                  />
-
-                  <div className="absolute inset-0 flex items-center justify-center z-20">
-                    <div className="w-20 h-20 rounded-full border border-akb-300/30 flex items-center justify-center backdrop-blur-sm group-hover:scale-105 transition-transform duration-500">
-                      <div className="w-14 h-14 bg-akb-300 rounded-full flex items-center justify-center shadow-lg">
-                        <Play className="w-6 h-6 text-akb-900 ml-1" fill="currentColor" />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="absolute bottom-6 left-0 w-full text-center z-20">
-                    <span className="text-akb-100 text-[10px] tracking-widest uppercase font-bold border-b border-akb-300/50 pb-1">Ver presentación privada</span>
-                  </div>
-                </div>
-              )}
-
               {viewState === 'video' && (
                 <div className="w-full h-full flex items-center justify-center bg-black">
                   <iframe
@@ -117,11 +82,16 @@ export const Hero: React.FC = () => {
             </div>
           </div>
 
-          <div className="mt-12 flex justify-center">
-            {viewState === 'locked' ? (
-              <Button onClick={handleUnlockVideo} variant="secondary">
-                ACCEDE AL VÍDEO COMPLETO
-              </Button>
+          <div className="mt-12 flex flex-col items-center gap-4">
+            {viewState === 'video' ? (
+              <>
+                <Button onClick={onOpenForm} variant="primary" className="text-lg px-8 py-4">
+                  AGENDAR LLAMADA ESTRATÉGICA
+                </Button>
+                <Button onClick={handleVideoFinished} variant="secondary" className="text-sm">
+                  CONTINUAR LEYENDO <ArrowRight className="ml-2 w-4 h-4" />
+                </Button>
+              </>
             ) : (
               <Button onClick={handleVideoFinished} variant="primary" className="animate-pulse">
                 CONTINUAR LEYENDO <ArrowRight className="ml-2 w-4 h-4" />

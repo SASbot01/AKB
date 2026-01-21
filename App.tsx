@@ -10,20 +10,14 @@ import { FinalCTA } from './components/FinalCTA';
 function App() {
   const [showEntryPopup, setShowEntryPopup] = useState(false);
 
-  useEffect(() => {
-    // Check if user has already submitted the qualification form
-    const hasSubmitted = localStorage.getItem('akb_qualification_submitted');
-    if (!hasSubmitted) {
-      // Show popup after 3 seconds to let them see the page first
-      setTimeout(() => {
-        setShowEntryPopup(true);
-      }, 3000);
-    }
-  }, []);
-
+  // No automatic popup - form only shows when user clicks button
   const handleEntrySubmit = () => {
     localStorage.setItem('akb_qualification_submitted', 'true');
     setShowEntryPopup(false);
+  };
+
+  const handleOpenForm = () => {
+    setShowEntryPopup(true);
   };
 
   return (
@@ -38,7 +32,7 @@ function App() {
 
       <main>
         {/* Page 1: Header + VSL + Curiosity CTA */}
-        <Hero />
+        <Hero onOpenForm={handleOpenForm} />
 
         {/* Page 1: The Context (Hoy en día...) */}
         <ProblemSolution />
