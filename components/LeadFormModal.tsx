@@ -202,17 +202,21 @@ export const LeadFormModal: React.FC<LeadFormModalProps> = ({ isOpen, onClose, o
               </div>
             </div>
 
-            <div className="pt-4">
-              <Button fullWidth type="submit" disabled={loading} className="flex justify-center items-center gap-2 py-3">
-                {loading ? (
-                  "Verificando Perfil..."
-                ) : (
-                  <>
-                    <Lock className="w-4 h-4" />
-                    Desbloquear Análisis
-                  </>
-                )}
-              </Button>
+            {/* Submit Button */}
+            <div className="pt-6">
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 hover:from-yellow-500 hover:via-yellow-600 hover:to-yellow-700 text-akb-900 font-bold py-4 px-6 rounded-lg shadow-2xl hover:shadow-yellow-500/50 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed text-lg relative overflow-hidden group"
+              >
+                {/* Glow effect */}
+                <div className="absolute inset-0 bg-gradient-to-r from-yellow-300 to-yellow-500 opacity-0 group-hover:opacity-30 blur-xl transition-opacity"></div>
+
+                <span className="relative z-10 flex items-center justify-center gap-2">
+                  {loading ? 'Enviando...' : 'DESBLOQUEAR ANÁLISIS'}
+                  {!loading && <ShieldCheck className="w-5 h-5" />}
+                </span>
+              </button>
             </div>
 
             <p className="text-[10px] text-slate-400 text-center mt-4">

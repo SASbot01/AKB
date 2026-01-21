@@ -24,12 +24,9 @@ export const Hero: React.FC<HeroProps> = ({ onOpenForm }) => {
       {/* Navbar / Logo Area */}
       <div className="absolute top-0 left-0 w-full z-30 pt-10">
         <div className="container mx-auto px-6 flex justify-center">
-          <div className="flex flex-col items-center">
-            {/* Cedar Tree Logo Approximation */}
-            <Trees className="w-12 h-12 text-white mb-3" strokeWidth={1} />
-            <span className="text-3xl font-serif text-white tracking-widest">AKB</span>
-            <span className="text-[10px] font-sans font-medium text-akb-200 tracking-[0.3em] uppercase mt-2">Capital Group</span>
-          </div>
+          <h1 className="text-3xl font-serif text-white tracking-widest">
+            AKB CAPITAL GROUP
+          </h1>
         </div>
       </div>
 
