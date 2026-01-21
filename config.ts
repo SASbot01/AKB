@@ -9,8 +9,8 @@ export const config = {
     ghlWebhookUrl: 'https://services.leadconnectorhq.com/hooks/Xnbqlch5urDqQ4LWzSY1/webhook-trigger/ab855ad0-e6ea-4d53-99d6-b293f6017c01',
 
     // VSL Video Configuration
-    // Google Drive video embed URL
-    vslVideoUrl: 'https://drive.google.com/file/d/1h5723JkrROcj_yp2OjPCZRI18xPTL9q4/preview',
+    // Google Drive video embed URL with controls hidden
+    vslVideoUrl: 'https://drive.google.com/file/d/1h5723JkrROcj_yp2OjPCZRI18xPTL9q4/preview?controls=0&modestbranding=1',
 
     // Form submission endpoint (optional - for future integration)
     formSubmitUrl: '',
