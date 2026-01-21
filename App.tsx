@@ -25,7 +25,7 @@ function App() {
       {/* Mandatory Qualification Form as Entry Popup */}
       <LeadFormModal
         isOpen={showEntryPopup}
-        onClose={() => { }} // Can't close without submitting
+        onClose={() => setShowEntryPopup(false)} // Allow closing without submitting
         onSubmit={handleEntrySubmit}
         title="Rellena tus datos para acceder al contenido"
       />

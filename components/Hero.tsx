@@ -86,7 +86,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenForm }) => {
             {viewState === 'video' ? (
               <>
                 <Button onClick={onOpenForm} variant="primary" className="text-lg px-8 py-4">
-                  AGENDAR LLAMADA ESTRATÉGICA
+                  SOLICITAR INFORMACIÓN
                 </Button>
                 <Button onClick={handleVideoFinished} variant="secondary" className="text-sm">
                   CONTINUAR LEYENDO <ArrowRight className="ml-2 w-4 h-4" />
