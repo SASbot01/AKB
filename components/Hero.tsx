@@ -82,21 +82,15 @@ export const Hero: React.FC<HeroProps> = ({ onOpenForm }) => {
             </div>
           </div>
 
-          <div className="mt-12 flex flex-col items-center gap-4">
-            {viewState === 'video' ? (
-              <>
-                <Button onClick={onOpenForm} variant="primary" className="text-lg px-8 py-4">
-                  SOLICITAR INFORMACIÓN
-                </Button>
-                <Button onClick={handleVideoFinished} variant="secondary" className="text-sm">
-                  CONTINUAR LEYENDO <ArrowRight className="ml-2 w-4 h-4" />
-                </Button>
-              </>
-            ) : (
-              <Button onClick={handleVideoFinished} variant="primary" className="animate-pulse">
-                CONTINUAR LEYENDO <ArrowRight className="ml-2 w-4 h-4" />
-              </Button>
-            )}
+          <div className="mt-12 flex justify-center">
+            <Button
+              onClick={onOpenForm}
+              variant="primary"
+              className="text-lg px-8 py-4 bg-akb-300 hover:bg-akb-400 text-akb-900 font-bold flex items-center gap-2"
+            >
+              SESIÓN ESTRATÉGICA
+              <ArrowRight className="w-5 h-5" />
+            </Button>
           </div>
 
         </div>
