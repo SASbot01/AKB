@@ -14,7 +14,7 @@ export const config = {
 
     // Tracking Pixels Configuration
     // Facebook Pixel ID - Get from Facebook Events Manager
-    facebookPixelId: 'YOUR_FACEBOOK_PIXEL_ID',
+    facebookPixelId: '25021654470847677',
 
     // Google Ads Conversion ID - Get from Google Ads
     googleAdsId: 'AW-CONVERSION_ID',
