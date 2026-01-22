@@ -8,7 +8,7 @@ interface FinalCTAProps {
 
 export const FinalCTA: React.FC<FinalCTAProps> = ({ onOpenForm }) => {
     return (
-        <section className="relative py-32 bg-akb-800 overflow-hidden">
+        <section className="relative py-32 bg-akb-700 overflow-hidden">
             {/* Geometric Background */}
             <div className="absolute inset-0 z-0 pointer-events-none">
                 <div className="absolute top-10 left-10 w-96 h-96 border border-akb-700/20 transform rotate-12"></div>
