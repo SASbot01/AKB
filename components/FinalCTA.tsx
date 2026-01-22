@@ -8,7 +8,7 @@ interface FinalCTAProps {
 
 export const FinalCTA: React.FC<FinalCTAProps> = ({ onOpenForm }) => {
     return (
-        <section className="relative py-32 bg-akb-900 overflow-hidden">
+        <section className="relative py-32 bg-akb-800 overflow-hidden">
             {/* Geometric Background */}
             <div className="absolute inset-0 z-0 pointer-events-none">
                 <div className="absolute top-10 left-10 w-96 h-96 border border-akb-700/20 transform rotate-12"></div>
@@ -17,7 +17,7 @@ export const FinalCTA: React.FC<FinalCTAProps> = ({ onOpenForm }) => {
 
             <div className="container mx-auto px-6 relative z-10">
                 <div className="max-w-3xl mx-auto text-center">
-                    <h2 className="text-4xl md:text-5xl font-serif text-white mb-6 leading-tight">
+                    <h2 className="text-2xl md:text-3xl font-serif text-white mb-6 leading-tight">
                         Si lo que has visto tiene sentido para ti, deja tus datos y accede al siguiente paso.
                     </h2>
 
