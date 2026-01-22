@@ -12,6 +12,14 @@ export const config = {
     // Google Drive video embed URL with controls hidden
     vslVideoUrl: 'https://drive.google.com/file/d/1h5723JkrROcj_yp2OjPCZRI18xPTL9q4/preview?controls=0&modestbranding=1',
 
+    // Tracking Pixels Configuration
+    // Facebook Pixel ID - Get from Facebook Events Manager
+    facebookPixelId: 'YOUR_FACEBOOK_PIXEL_ID',
+
+    // Google Ads Conversion ID - Get from Google Ads
+    googleAdsId: 'AW-CONVERSION_ID',
+    googleAdsLeadLabel: 'LEAD_CONVERSION_LABEL',
+
     // Form submission endpoint (optional - for future integration)
     formSubmitUrl: '',
 } as const;

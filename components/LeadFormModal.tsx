@@ -29,6 +29,8 @@ export const LeadFormModal: React.FC<LeadFormModalProps> = ({ isOpen, onClose, o
     try {
       // Import Supabase helper
       const { saveLead } = await import('../lib/supabase');
+      // Import tracking helper
+      const { trackLeadSubmission } = await import('../lib/tracking');
 
       // Save to Supabase
       const result = await saveLead({
@@ -40,6 +42,16 @@ export const LeadFormModal: React.FC<LeadFormModalProps> = ({ isOpen, onClose, o
         nivelCompromiso: formData.nivelCompromiso,
         source: 'lead_form_modal',
         url: window.location.href,
+      });
+
+      // Track conversion event
+      trackLeadSubmission({
+        nombre: formData.nombre,
+        email: formData.email,
+        telefono: formData.telefono,
+        facturacion: formData.facturacion,
+        tipoNegocio: formData.tipoNegocio,
+        nivelCompromiso: formData.nivelCompromiso,
       });
 
       // Also save to localStorage as backup
