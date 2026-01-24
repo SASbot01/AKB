@@ -59,20 +59,14 @@ export const LeadFormModal: React.FC<LeadFormModalProps> = ({ isOpen, onClose, o
 
       setLoading(false);
 
-      if (result.success) {
-        alert("¡Gracias por rellenar el formulario! Pronto nos pondremos en contacto contigo.\n\nMientras tanto, te pedimos encarecidamente que mires el video para saber si esto es para ti.");
-      } else {
-        // Even if Supabase fails, we saved to localStorage
-        alert("¡Gracias por rellenar el formulario! Tus datos han sido guardados.\n\nMientras tanto, te pedimos encarecidamente que mires el video para saber si esto es para ti.");
-      }
-
+      // Call onSubmit which will redirect to /gracias
       onSubmit();
     } catch (error) {
       console.error('Error submitting form:', error);
       // Save to localStorage as fallback
       localStorage.setItem('akb_lead_data', JSON.stringify(formData));
       setLoading(false);
-      alert("¡Gracias por rellenar el formulario! Tus datos han sido guardados.\n\nMientras tanto, te pedimos encarecidamente que mires el video para saber si esto es para ti.");
+      // Still redirect to thank you page
       onSubmit();
     }
   };

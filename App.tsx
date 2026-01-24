@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Hero } from './components/Hero';
 import { ProblemSolution } from './components/ProblemSolution';
 import { Methodology } from './components/Methodology';
@@ -6,14 +7,17 @@ import { TargetAudience } from './components/TargetAudience';
 import { Footer } from './components/Footer';
 import { LeadFormModal } from './components/LeadFormModal';
 import { FinalCTA } from './components/FinalCTA';
+import { ThankYouPage } from './components/ThankYouPage';
 
-function App() {
+function MainPage() {
   const [showEntryPopup, setShowEntryPopup] = useState(false);
 
   // No automatic popup - form only shows when user clicks button
   const handleEntrySubmit = () => {
     localStorage.setItem('akb_qualification_submitted', 'true');
     setShowEntryPopup(false);
+    // Redirect to thank you page
+    window.location.href = '/gracias';
   };
 
   const handleOpenForm = () => {
@@ -48,6 +52,18 @@ function App() {
       </main>
       <Footer />
     </div>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<MainPage />} />
+        <Route path="/gracias" element={<ThankYouPage />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
