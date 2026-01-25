@@ -6,7 +6,7 @@ export const config = {
 
     // Go High Level Webhook URL for form submissions
     // Get this from: GHL → Settings → Workflows → Create Webhook
-    ghlWebhookUrl: 'https://services.leadconnectorhq.com/hooks/Xnbqlch5urDqQ4LWzSY1/webhook-trigger/ab855ad0-e6ea-4d53-99d6-b293f6017c01',
+    ghlWebhookUrl: 'https://services.leadconnectorhq.com/hooks/Xnbqlch5urDqQ4LWzSY1/webhook-trigger/fb364ea8-2659-4ea9-8440-53d1220dcdeb',
 
     // VSL Video Configuration
     // Google Drive video embed URL with controls hidden

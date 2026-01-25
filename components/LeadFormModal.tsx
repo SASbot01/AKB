@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, ShieldCheck, Lock, ChevronDown } from 'lucide-react';
+import { X, ShieldCheck, Lock } from 'lucide-react';
 import { Button } from './Button';
 
 interface LeadFormModalProps {
@@ -15,9 +15,6 @@ export const LeadFormModal: React.FC<LeadFormModalProps> = ({ isOpen, onClose, o
     nombre: '',
     email: '',
     telefono: '',
-    facturacion: '',
-    tipoNegocio: '',
-    nivelCompromiso: '',
   });
 
   if (!isOpen) return null;
@@ -37,9 +34,6 @@ export const LeadFormModal: React.FC<LeadFormModalProps> = ({ isOpen, onClose, o
         nombre: formData.nombre,
         email: formData.email,
         telefono: formData.telefono,
-        facturacion: formData.facturacion,
-        tipoNegocio: formData.tipoNegocio,
-        nivelCompromiso: formData.nivelCompromiso,
         source: 'lead_form_modal',
         url: window.location.href,
       });
@@ -49,9 +43,6 @@ export const LeadFormModal: React.FC<LeadFormModalProps> = ({ isOpen, onClose, o
         nombre: formData.nombre,
         email: formData.email,
         telefono: formData.telefono,
-        facturacion: formData.facturacion,
-        tipoNegocio: formData.tipoNegocio,
-        nivelCompromiso: formData.nivelCompromiso,
       });
 
       // Also save to localStorage as backup
@@ -97,10 +88,10 @@ export const LeadFormModal: React.FC<LeadFormModalProps> = ({ isOpen, onClose, o
         {/* Content */}
         <div className="p-8">
           <h3 className="text-xl font-display font-bold text-slate-900 mb-2 text-center">
-            {title || "Solicitud de Acceso & Pre-Cualificación"}
+            {title || "Solicita tu Sesión Estratégica"}
           </h3>
           <p className="text-slate-500 text-sm text-center mb-6 leading-relaxed">
-            Completa este formulario para acceder a la página y al video completo. Nuestro equipo analizará tu perfil.
+            Completa tus datos y nuestro equipo se pondrá en contacto contigo para agendar tu sesión.
           </p>
 
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -144,70 +135,6 @@ export const LeadFormModal: React.FC<LeadFormModalProps> = ({ isOpen, onClose, o
               />
             </div>
 
-            {/* Qualification Fields */}
-            <div>
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Facturación Anual Actual</label>
-              <div className="relative">
-                <select
-                  required
-                  name="facturacion"
-                  value={formData.facturacion}
-                  onChange={handleChange}
-                  className="w-full bg-white border border-slate-300 text-slate-900 px-3 py-2.5 rounded focus:border-corporate-500 focus:outline-none focus:ring-1 focus:ring-corporate-500/50 transition-all shadow-sm appearance-none text-sm"
-                >
-                  <option value="">Seleccione rango...</option>
-                  <option value="<100k">Menos de 100k€ (No cualifica)</option>
-                  <option value="100k-500k">100k€ - 500k€</option>
-                  <option value="500k-1M">500k€ - 1M€</option>
-                  <option value="1M-5M">1M€ - 5M€</option>
-                  <option value=">5M">Más de 5M€</option>
-                </select>
-                <ChevronDown className="absolute right-3 top-3 w-4 h-4 text-slate-400 pointer-events-none" />
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Tipo de Negocio</label>
-              <div className="relative">
-                <select
-                  required
-                  name="tipoNegocio"
-                  value={formData.tipoNegocio}
-                  onChange={handleChange}
-                  className="w-full bg-white border border-slate-300 text-slate-900 px-3 py-2.5 rounded focus:border-corporate-500 focus:outline-none focus:ring-1 focus:ring-corporate-500/50 transition-all shadow-sm appearance-none text-sm"
-                >
-                  <option value="">Seleccione tipo...</option>
-                  <option value="digital_service">Servicios Digitales / Agencia / Consultoría</option>
-                  <option value="ecommerce">E-commerce / Dropshipping / Amazon FBA</option>
-                  <option value="crypto">Inversor Cripto / Web3 / DeFi</option>
-                  <option value="saas">SaaS / Software</option>
-                  <option value="trader">Trading / Inversiones Tradicionales</option>
-                  <option value="other">Otro (Consultar)</option>
-                </select>
-                <ChevronDown className="absolute right-3 top-3 w-4 h-4 text-slate-400 pointer-events-none" />
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Nivel de Compromiso</label>
-              <div className="relative">
-                <select
-                  required
-                  name="nivelCompromiso"
-                  value={formData.nivelCompromiso}
-                  onChange={handleChange}
-                  className="w-full bg-white border border-slate-300 text-slate-900 px-3 py-2.5 rounded focus:border-corporate-500 focus:outline-none focus:ring-1 focus:ring-corporate-500/50 transition-all shadow-sm appearance-none text-sm"
-                >
-                  <option value="">Seleccione nivel...</option>
-                  <option value="info">Solo estoy curioseando</option>
-                  <option value="considering">Considerando opciones para este año</option>
-                  <option value="ready">Listo para actuar si los números cuadran</option>
-                  <option value="urgent">Urgente (Necesito solución en 30 días)</option>
-                </select>
-                <ChevronDown className="absolute right-3 top-3 w-4 h-4 text-slate-400 pointer-events-none" />
-              </div>
-            </div>
-
             {/* Submit Button */}
             <div className="pt-6">
               <button
@@ -219,7 +146,7 @@ export const LeadFormModal: React.FC<LeadFormModalProps> = ({ isOpen, onClose, o
                 <div className="absolute inset-0 bg-gradient-to-r from-yellow-300 to-yellow-500 opacity-0 group-hover:opacity-30 blur-xl transition-opacity"></div>
 
                 <span className="relative z-10 flex items-center justify-center gap-2">
-                  {loading ? 'Enviando...' : 'DESBLOQUEAR ANÁLISIS'}
+                  {loading ? 'Enviando...' : 'SOLICITAR SESIÓN ESTRATÉGICA'}
                   {!loading && <ShieldCheck className="w-5 h-5" />}
                 </span>
               </button>
