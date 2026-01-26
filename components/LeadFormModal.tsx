@@ -15,6 +15,7 @@ export const LeadFormModal: React.FC<LeadFormModalProps> = ({ isOpen, onClose, o
     nombre: '',
     email: '',
     telefono: '',
+    caso: '',
   });
 
   if (!isOpen) return null;
@@ -24,13 +25,43 @@ export const LeadFormModal: React.FC<LeadFormModalProps> = ({ isOpen, onClose, o
     setLoading(true);
 
     try {
-      // Import Supabase helper
+      // Import helpers
       const { saveLead } = await import('../lib/supabase');
-      // Import tracking helper
       const { trackLeadSubmission } = await import('../lib/tracking');
+      const { getUTMParameters } = await import('../lib/utm');
+      const { config } = await import('../config');
+
+      // Get UTM parameters
+      const utmParams = getUTMParameters();
+
+      // Prepare complete payload with UTM data
+      const payload = {
+        nombre: formData.nombre,
+        email: formData.email,
+        telefono: formData.telefono,
+        caso: formData.caso,
+        source: 'lead_form_modal',
+        url: window.location.href,
+        timestamp: new Date().toISOString(),
+        ...utmParams, // Include all UTM parameters
+      };
+
+      // Send to n8n webhook
+      try {
+        await fetch(config.ghlWebhookUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload),
+        });
+        console.log('Lead sent to n8n webhook:', payload);
+      } catch (webhookError) {
+        console.error('Error sending to webhook:', webhookError);
+      }
 
       // Save to Supabase
-      const result = await saveLead({
+      await saveLead({
         nombre: formData.nombre,
         email: formData.email,
         telefono: formData.telefono,
@@ -45,8 +76,8 @@ export const LeadFormModal: React.FC<LeadFormModalProps> = ({ isOpen, onClose, o
         telefono: formData.telefono,
       });
 
-      // Also save to localStorage as backup
-      localStorage.setItem('akb_lead_data', JSON.stringify(formData));
+      // Save to localStorage as backup
+      localStorage.setItem('akb_lead_data', JSON.stringify(payload));
 
       setLoading(false);
 
@@ -62,7 +93,7 @@ export const LeadFormModal: React.FC<LeadFormModalProps> = ({ isOpen, onClose, o
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
@@ -132,6 +163,19 @@ export const LeadFormModal: React.FC<LeadFormModalProps> = ({ isOpen, onClose, o
                 onChange={handleChange}
                 className="w-full bg-white border border-slate-300 text-slate-900 px-3 py-2.5 rounded focus:border-corporate-500 focus:outline-none focus:ring-1 focus:ring-corporate-500/50 transition-all shadow-sm text-sm"
                 placeholder="+34 600 000 000"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Cuéntanos tu Caso</label>
+              <textarea
+                required
+                name="caso"
+                value={formData.caso}
+                onChange={handleChange}
+                rows={4}
+                className="w-full bg-white border border-slate-300 text-slate-900 px-3 py-2.5 rounded focus:border-corporate-500 focus:outline-none focus:ring-1 focus:ring-corporate-500/50 transition-all shadow-sm text-sm resize-none"
+                placeholder="Describe brevemente tu situación actual, tus objetivos y qué tipo de estructura necesitas..."
               />
             </div>
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Hero } from './components/Hero';
 import { ProblemSolution } from './components/ProblemSolution';
@@ -8,9 +8,15 @@ import { Footer } from './components/Footer';
 import { LeadFormModal } from './components/LeadFormModal';
 import { FinalCTA } from './components/FinalCTA';
 import { ThankYouPage } from './components/ThankYouPage';
+import { captureUTMParameters } from './lib/utm';
 
 function MainPage() {
   const [showEntryPopup, setShowEntryPopup] = useState(false);
+
+  // Capture UTM parameters on page load
+  useEffect(() => {
+    captureUTMParameters();
+  }, []);
 
   // No automatic popup - form only shows when user clicks button
   const handleEntrySubmit = () => {

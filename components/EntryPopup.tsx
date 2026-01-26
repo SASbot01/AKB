@@ -22,11 +22,41 @@ export const EntryPopup: React.FC<EntryPopupProps> = ({ isOpen, onSubmit }) => {
         setLoading(true);
 
         try {
-            // Import Supabase helper
+            // Import helpers
             const { saveLead } = await import('../lib/supabase');
+            const { getUTMParameters } = await import('../lib/utm');
+            const { config } = await import('../config');
+
+            // Get UTM parameters
+            const utmParams = getUTMParameters();
+
+            // Prepare complete payload with UTM data
+            const payload = {
+                nombre: formData.nombre,
+                email: formData.email,
+                telefono: formData.telefono,
+                source: 'entry_popup',
+                url: window.location.href,
+                timestamp: new Date().toISOString(),
+                ...utmParams, // Include all UTM parameters
+            };
+
+            // Send to n8n webhook
+            try {
+                await fetch(config.ghlWebhookUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(payload),
+                });
+                console.log('Lead sent to n8n webhook:', payload);
+            } catch (webhookError) {
+                console.error('Error sending to webhook:', webhookError);
+            }
 
             // Save to Supabase
-            const result = await saveLead({
+            await saveLead({
                 nombre: formData.nombre,
                 email: formData.email,
                 telefono: formData.telefono,
@@ -34,19 +64,13 @@ export const EntryPopup: React.FC<EntryPopupProps> = ({ isOpen, onSubmit }) => {
                 url: window.location.href,
             });
 
-            // Also save to localStorage as backup
-            localStorage.setItem('akb_entry_data', JSON.stringify(formData));
+            // Save to localStorage as backup
+            localStorage.setItem('akb_entry_data', JSON.stringify(payload));
             localStorage.setItem('akb_entry_submitted', 'true');
 
             setLoading(false);
 
-            if (result.success) {
-                alert("¡Bienvenido! Gracias por registrarte. A continuación podrás ver nuestro contenido exclusivo.");
-            } else {
-                // Even if Supabase fails, we saved to localStorage
-                alert("¡Bienvenido! Gracias por registrarte. A continuación podrás ver nuestro contenido exclusivo.");
-            }
-
+            alert("¡Bienvenido! Gracias por registrarte. A continuación podrás ver nuestro contenido exclusivo.");
             onSubmit();
         } catch (error) {
             console.error('Error submitting form:', error);

@@ -4,9 +4,9 @@ export const config = {
     // Go High Level redirect URL - Update this with your actual GHL URL
     goHighLevelUrl: 'https://your-ghl-domain.com/booking-page',
 
-    // Go High Level Webhook URL for form submissions
-    // Get this from: GHL → Settings → Workflows → Create Webhook
-    ghlWebhookUrl: 'https://services.leadconnectorhq.com/hooks/Xnbqlch5urDqQ4LWzSY1/webhook-trigger/fb364ea8-2659-4ea9-8440-53d1220dcdeb',
+    // n8n Webhook URL for form submissions
+    // Automation workflow endpoint
+    ghlWebhookUrl: 'https://blackwolfenterprises.app.n8n.cloud/webhook/b41e8ce2-7b29-41d6-ac2c-ae09c1de5f03',
 
     // VSL Video Configuration
     // Google Drive video embed URL with controls hidden
