@@ -4,9 +4,9 @@ export const config = {
     // Go High Level redirect URL - Update this with your actual GHL URL
     goHighLevelUrl: 'https://your-ghl-domain.com/booking-page',
 
-    // n8n Webhook URL for form submissions (TEST)
+    // n8n Webhook URL for form submissions (PRODUCTION)
     // Automation workflow endpoint
-    ghlWebhookUrl: 'https://blackwolfenterprises.app.n8n.cloud/webhook-test/b41e8ce2-7b29-41d6-ac2c-ae09c1de5f03',
+    ghlWebhookUrl: 'https://blackwolfenterprises.app.n8n.cloud/webhook/b41e8ce2-7b29-41d6-ac2c-ae09c1de5f03',
 
     // VSL Video Configuration
     // Google Drive video embed URL with controls hidden
