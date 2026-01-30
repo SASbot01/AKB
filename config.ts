@@ -6,7 +6,7 @@ export const config = {
 
     // n8n Webhook URL for form submissions (PRODUCTION)
     // Automation workflow endpoint
-    ghlWebhookUrl: 'https://blackwolfenterprises.app.n8n.cloud/webhook/f484964d-42f5-460c-bc08-0ea85cda25a8',
+    ghlWebhookUrl: 'https://blackwolfenterprises.app.n8n.cloud/webhook/b41e8ce2-7b29-41d6-ac2c-ae09c1de5f03',
 
     // VSL Video Configuration
     // Google Drive video embed URL with controls hidden
